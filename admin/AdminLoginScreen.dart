@@ -1,0 +1,148 @@
+import 'package:flutter/material.dart';
+
+import 'AdminHomeScreen.dart';
+
+
+class AdminLoginScreen extends StatefulWidget {
+  const AdminLoginScreen({super.key});
+
+  @override
+  State<AdminLoginScreen> createState() => _AdminLoginScreenState();
+}
+
+class _AdminLoginScreenState extends State<AdminLoginScreen> {
+  TextEditingController _emailController = TextEditingController();
+  TextEditingController _passwordController = TextEditingController();
+  bool _obscure = true;
+
+  // ✅ Hardcoded Admin Credentials
+  final String adminEmail = "admin@gmail.com";
+  final String adminPassword = "admin1234";
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      decoration: BoxDecoration(
+        image: DecorationImage(
+            image: AssetImage('assets/blob-scene-haikei (2).png'), fit: BoxFit.cover),
+      ),
+      child: Scaffold(
+        backgroundColor: Colors.transparent,
+        body: Stack(
+          children: [
+            Container(
+              padding: EdgeInsets.only(left: 35, top: 150),
+              child: Text(
+                'Admin\nLogin',
+                style: TextStyle(color: Colors.blueGrey, fontSize: 40),
+              ),
+            ),
+            SingleChildScrollView(
+              child: Container(
+                padding: EdgeInsets.only(
+                    top: MediaQuery.of(context).size.height * 0.5),
+                child: Column(
+                  children: [
+                    Container(
+                      margin: EdgeInsets.symmetric(horizontal: 35),
+                      child: Column(
+                        children: [
+                          TextField(
+                            controller: _emailController,
+                            style: TextStyle(color: Colors.white),
+                            decoration: InputDecoration(
+                              fillColor: Colors.grey.shade100,
+                              filled: false,
+                              hintText: "Admin Email",
+                              border: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(10),
+                                borderSide: BorderSide(color: Colors.white),
+                              ),
+                              enabledBorder: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(10),
+                                borderSide: BorderSide(color: Colors.white),
+                              ),
+                              focusedBorder: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(10),
+                                borderSide: BorderSide(color: Colors.white),
+                              ),
+                            ),
+                          ),
+                          SizedBox(height: 30),
+                          TextField(
+                            controller: _passwordController,
+                            style: TextStyle(color: Colors.white),
+                            obscureText: _obscure,
+                            decoration: InputDecoration(
+                              fillColor: Colors.grey.shade100,
+                              filled: false,
+                              hintText: "Password",
+                              border: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(10),
+                                borderSide: BorderSide(color: Colors.white),
+                              ),
+                              enabledBorder: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(10),
+                                borderSide: BorderSide(color: Colors.white),
+                              ),
+                              focusedBorder: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(10),
+                                borderSide: BorderSide(color: Colors.white),
+                              ),
+                              suffixIcon: IconButton(
+                                icon: Icon(
+                                  _obscure ? Icons.visibility_off : Icons.visibility,
+                                  color: Colors.white12,
+                                ),
+                                onPressed: () {
+                                  setState(() => _obscure = !_obscure);
+                                },
+                              ),
+                            ),
+                          ),
+                          SizedBox(height: 40),
+                          ElevatedButton(
+                            style: ElevatedButton.styleFrom(
+                              backgroundColor: Colors.pink.shade200,
+                              padding: EdgeInsets.symmetric(
+                                  horizontal: 40, vertical: 15),
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(10),
+                              ),
+                            ),
+                            onPressed: () {
+                              final email = _emailController.text.trim();
+                              final password = _passwordController.text.trim();
+
+                              if (email == adminEmail &&
+                                  password == adminPassword) {
+                                Navigator.pushReplacement(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) => AdminHomeScreen(),
+                                  ),
+                                );
+                              } else {
+                                ScaffoldMessenger.of(context).showSnackBar(
+                                  SnackBar(
+                                    content:
+                                    Text("Invalid admin credentials."),
+                                  ),
+                                );
+                              }
+                            },
+                            child: Text("Login as Admin"),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
